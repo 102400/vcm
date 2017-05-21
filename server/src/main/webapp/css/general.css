@@ -1,0 +1,12 @@
+.float_left {
+	float: left;
+}
+.float_right {
+	float: right
+}
+.float_clear_both {
+	clear: both;
+}
+.img_default {
+	max-width: 100%;
+}
