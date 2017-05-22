@@ -3,6 +3,8 @@ package util;
 import util.MD5;
 
 public class VerifySource {
+    
+    private VerifySource() {}
 	
 	private static final String LEFT = "#vc";
 	private static final String RIGHT = "@*!6^xs";

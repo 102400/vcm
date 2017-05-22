@@ -3,7 +3,7 @@ package pojo;
 public class Genres {
     
     private Integer genresId;
-    private Integer movieId;
+    private String nameZh;
     
     public Integer getGenresId() {
         return genresId;
@@ -11,11 +11,11 @@ public class Genres {
     public void setGenresId(Integer genresId) {
         this.genresId = genresId;
     }
-    public Integer getMovieId() {
-        return movieId;
+    public String getNameZh() {
+        return nameZh;
     }
-    public void setMovieId(Integer movieId) {
-        this.movieId = movieId;
+    public void setNameZh(String nameZh) {
+        this.nameZh = nameZh;
     }
 
 }

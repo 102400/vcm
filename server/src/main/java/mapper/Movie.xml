@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="mapper.MovieMapper">
+        
+        <insert id="add" parameterType="Movie" useGeneratedKeys="true" keyProperty="movieId">
+            INSERT INTO movie 
+            ( imdb_id, douban_id, name_zh, name_o, storyline, release_date, runtime) 
+            VALUES 
+            ( #{imdbId}, #{doubanId}, #{nameZh}, #{nameO}, #{storyline}, #{releaseDate}, #{runtime})
+        </insert>
+    
+    </mapper>
