@@ -5,5 +5,27 @@
     
     <mapper namespace="mapper.RatingMapper">
         
+        <insert id="addRating" parameterType="Rating" useGeneratedKeys="true" keyProperty="ratingId">
+            INSERT INTO rating 
+            ( movie_id, user_id, rating, comment) 
+            VALUES 
+            ( #{movieId}, #{userId}, #{rating}, #{comment})
+        </insert>
+        
+        <select id="findRatingByMovieIdAndUserId" parameterType="Rating" resultType="Rating">
+            SELECT * 
+            FROM rating 
+            WHERE 
+                movie_id = #{movieId} 
+                AND user_id = #{userId} 
+        </select>
+        
+        <update id="updateRatingAndComment" parameterType="Rating">
+            UPDATE rating 
+            SET rating = #{rating}, comment = #{comment} 
+            WHERE 
+                movie_id = #{movieId} 
+                AND user_id = #{userId} 
+        </update>
     
     </mapper>

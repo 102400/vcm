@@ -12,6 +12,7 @@ public class Movie {
     private String storyline;
     private String releaseDate;
     private Short runtime;
+    private Integer unhandleRatings;
     
     public Integer getMovieId() {
         return movieId;
@@ -73,5 +74,12 @@ public class Movie {
     public void setRuntime(Short runtime) {
         this.runtime = runtime;
     }
+    public Integer getUnhandleRatings() {
+        return unhandleRatings;
+    }
+    public void setUnhandleRatings(Integer unhandleRatings) {
+        this.unhandleRatings = unhandleRatings;
+    }
+    
     
 }

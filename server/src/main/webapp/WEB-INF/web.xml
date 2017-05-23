@@ -69,6 +69,11 @@
     </filter-mapping>
     
     <filter-mapping>
+        <filter-name>isLoginFilter</filter-name>
+        <url-pattern>/movie/rating/*</url-pattern>
+    </filter-mapping>
+    
+    <filter-mapping>
         <filter-name>SpringEncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>

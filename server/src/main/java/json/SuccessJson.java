@@ -1,6 +1,5 @@
 package json;
 
-//@Deprecated
 public class SuccessJson {
 	
 	private boolean isSuccess;

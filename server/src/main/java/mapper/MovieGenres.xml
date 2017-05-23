@@ -5,11 +5,17 @@
     
     <mapper namespace="mapper.MovieGenresMapper">
         
-        <insert id="addMovieGenres" parameterType="MovieGenres"  useGeneratedKeys="true" keyProperty="genresId">
+        <insert id="addMovieGenres" parameterType="MovieGenres"  useGeneratedKeys="true" keyProperty="id">
             INSERT INTO movie_genres
             ( genres_id, movie_id)
             VALUES
             ( #{genresId}, #{movieId})
         </insert>
+        
+        <select id="findMovieGenresByMovieId" parameterType="MovieGenres" resultType="MovieGenres">
+            SELECT * 
+            FROM movie_genres 
+            WHERE movie_id = #{movieId}
+        </select>
     
     </mapper>

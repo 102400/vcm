@@ -23,5 +23,17 @@
             FROM user 
             WHERE username = #{username}
         </select>
+        
+        <update id="plusOneToUnhandleRatingsByUserId" parameterType="User">
+            UPDATE user 
+            SET unhandle_rating = unhandle_rating + 1 
+            WHERE user_id = #{userId} 
+        </update>
+        
+        <update id="makeUnhandleRatingsZeroByUserId" parameterType="User">
+            UPDATE user 
+            SET unhandle_rating = 0 
+            WHERE user_id = #{userId} 
+        </update>
     
     </mapper>

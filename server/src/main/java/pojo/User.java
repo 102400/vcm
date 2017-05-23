@@ -8,7 +8,7 @@ public class User {
     
     private Integer userId;
     
-    @Size(min = 6, max = 16)
+    @Size(min = 1, max = 16)
     private String username;
     
     @Email
@@ -19,6 +19,8 @@ public class User {
     
     @Size(min = 1, max = 16)
     private String nickname;
+    
+    private Integer unhandleRating;
     
     public Integer getUserId() {
         return userId;
@@ -50,5 +52,12 @@ public class User {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+    public Integer getUnhandleRating() {
+        return unhandleRating;
+    }
+    public void setUnhandleRating(Integer unhandleRating) {
+        this.unhandleRating = unhandleRating;
+    }
+    
 
 }

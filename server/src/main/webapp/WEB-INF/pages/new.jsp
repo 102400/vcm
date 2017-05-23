@@ -10,10 +10,18 @@
 <body>
 <jsp:include page="include/head.jsp"></jsp:include>
 <c:if test="${userId == 1}">
-	<h3>批量新建(正在执行的任务有:0个)</h3>
+	<h3>批量新建(正在执行的任务有:${batchNewThreadCount}个)</h3>
 	<h6>按钮:强行终止所有执行任务(并不会瞬间停止)</h6>
-	<p>输入地址，抓取此页最近看过的用户及用户所有看过电影(不能超过两层)</p>
-	<br>
+	<p>输入地址，抓取此页最近看过的用户及用户所有看过电影和评分</p>
+	
+	<form class="form-inline">
+    <div class="form-group">
+        <input type="text" id="doubanId" class="form-control" placeholder="doubanId">
+        <button type="button" id="batchNewButton" class="btn btn-default">批量增加</button>
+    </div>
+    </form>
+    <span id="batchMessage" style="color:#F00"></span>
+	<hr>
 </c:if>
 <h3>输入doubanId抓取新建</h3>
 <form class="form-inline">
@@ -22,7 +30,7 @@
         <button type="button" id="newButton" class="btn btn-default">增加</button>
     </div>
 </form>
-<span id="message" style="color:#F00">${message}</span>
+<span id="message" style="color:#F00"></span>
 
 
 new.jsp
@@ -49,6 +57,35 @@ $(function () {
                     }
                     else {
                     	$("#message").html("增加失败");
+                    }
+                }
+            });
+        }
+        else {
+            return;
+        }
+    });
+
+    $("#batchNewButton").click(function() {
+        var doubanId = $("#doubanId").val();
+        var html = $(this).html();
+        
+        if(doubanId!=null&&doubanId!="") {
+            var sendData = {"doubanId":doubanId};
+            
+            $.ajax({
+                type: "POST",
+                url: "/new/batch",
+                dataType: "json",
+                contentType: "application/json",               
+                data: JSON.stringify(sendData),
+                success : function(data) {
+                    var json = JSON.parse(JSON.stringify(data));
+                    if(json.isSuccess) {
+                        $("#batchMessage").html("成功开启线程");
+                    }
+                    else {
+                        $("#batchMessage").html("线程启动失败");
                     }
                 }
             });

@@ -11,5 +11,23 @@
             VALUES 
             ( #{imdbId}, #{doubanId}, #{nameZh}, #{nameO}, #{storyline}, #{releaseDate}, #{runtime})
         </insert>
+        
+        <select id="findMovieByDoubanId" parameterType="Movie" resultType="Movie">
+            SELECT * 
+            FROM movie 
+            WHERE douban_id = #{doubanId}
+        </select>
+        
+        <update id="plusOneToUnhandleRatingsByMovieId" parameterType="Movie">
+            UPDATE movie 
+            SET unhandle_ratings = unhandle_ratings + 1 
+            WHERE movie_id = #{movieId} 
+        </update>
+        
+        <update id="makeUnhandleRatingsZeroByMovieId" parameterType="Movie">
+            UPDATE movie 
+            SET unhandle_ratings = 0 
+            WHERE movie_id = #{movieId} 
+        </update>
     
     </mapper>

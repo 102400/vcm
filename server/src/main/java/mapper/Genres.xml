@@ -4,18 +4,24 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
     <mapper namespace="mapper.GenresMapper">
+    
+        <insert id="addGenres" parameterType="Genres" useGeneratedKeys="true" keyProperty="genresId">
+            INSERT INTO genres 
+            ( name_zh) 
+            VALUES 
+            ( #{nameZh})
+        </insert>
         
         <select id="findGenresByNameZh" parameterType="Genres" resultType="Genres">
-            SELECT *
-            FROM genres
+            SELECT * 
+            FROM genres 
             WHERE name_zh = #{nameZh}
         </select>
         
-        <insert id="addGenres" parameterType="Genres" useGeneratedKeys="true" keyProperty="genresId">
-            INSERT INTO genres
-            ( name_zh)
-            VALUES
-            ( #{nameZh})
-        </insert>
+        <select id="findGenresByGenresId" parameterType="Genres" resultType="Genres">
+            SELECT * 
+            FROM genres 
+            WHERE genres_id = #{genresId}
+        </select>
     
     </mapper>

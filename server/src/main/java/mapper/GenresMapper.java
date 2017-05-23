@@ -4,7 +4,8 @@ import pojo.Genres;
 
 public interface GenresMapper {
     
-    Genres findGenresByNameZh(Genres genres);
     int addGenres(Genres genres);
+    Genres findGenresByNameZh(Genres genres);
+    Genres findGenresByGenresId(Genres genres);
 
 }

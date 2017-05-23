@@ -15,6 +15,7 @@ import config.Config;
 import pojo.Genres;
 import pojo.Movie;
 
+//  https://movie.douban.com/subject/26718838/
 public class DoubanMovieSubjectCrawler {
     
     private DoubanMovieSubjectCrawler() {}
@@ -47,7 +48,7 @@ public class DoubanMovieSubjectCrawler {
             String nameZhA = "<span property=\"v:itemreviewed\">";
             String nameZhB = "</span>";
             String nameZh = null;
-            String nameO = null;
+            StringBuilder nameO = new StringBuilder();
             
 //                String str1 = "<a href=\"http://www.imdb.com/title/tt5442430\" target=\"_blank\" rel=\"nofollow\">tt5442430</a>";
             String imdbIdA = "<a href=\"http://www.imdb.com/title/tt";
@@ -87,12 +88,14 @@ public class DoubanMovieSubjectCrawler {
                     String temp = line.split(nameZhA)[1].split(nameZhB)[0];
                     nameZh = temp.split(" ")[0];
                     try {
-                        nameO = temp.split(" ")[1];
+                        for (int i=1; i<temp.length(); i++) {
+                            nameO.append(temp.split(" ")[i] + " ");
+                        }
                     }
                     catch (Exception e) {}
                     
                     System.out.println(nameZh);
-                    System.out.println(nameO);
+                    System.out.println(nameO.toString());
                     continue;
                 }
                 if (line.indexOf(imdbIdA) != -1) {
@@ -112,8 +115,8 @@ public class DoubanMovieSubjectCrawler {
                 if (line.indexOf(releaseDateA) != -1) {
                     String[] temp = line.split(" / ");
                     for (int i=0; i<temp.length; i++) {
-                        String releaseDateBS = temp[i].split(releaseDateA)[1].split(releaseDateB)[0];
-                        releaseDate.append(releaseDateBS + "/");
+                        String releaseDateS = temp[i].split(releaseDateA)[1].split(releaseDateB)[0];
+                        releaseDate.append(releaseDateS + " ");
                     }
                     
                     System.out.println(releaseDate.toString());
@@ -159,7 +162,7 @@ public class DoubanMovieSubjectCrawler {
 //                movie.setRatings(0f);
 //                movie.setUsers(0);
             movie.setNameZh(nameZh);
-            movie.setNameO(nameO);
+            movie.setNameO(nameO.toString());
             movie.setStoryline(storyline);
             movie.setReleaseDate(releaseDate.toString());
             movie.setRuntime(runtime);
