@@ -11,7 +11,17 @@
 <jsp:include page="include/head.jsp"></jsp:include>
 <c:if test="${userId == 1}">
 	<h3>批量新建(正在执行的任务有:${batchNewThreadCount}个)</h3>
-	<h6>按钮:强行终止所有执行任务(并不会瞬间停止)</h6>
+	<p>尽量单个线程</p>
+	当前任务状态:<br />
+	<c:forEach items="${batchNewThreadProgressMap}" var="entry">
+		${entry.key}:${entry.value}%<br />
+    </c:forEach> 
+	<h6>强行终止所有执行任务(并不会瞬间停止)</h6>
+		<form class="form-inline">
+	    <div class="form-group">
+	        <button type="button" id="stopBatchNewButton" class="btn btn-default">强行停止</button>
+	    </div>
+	    </form>
 	<p>输入地址，抓取此页最近看过的用户及用户所有看过电影和评分</p>
 	
 	<form class="form-inline">
@@ -92,6 +102,31 @@ $(function () {
         }
         else {
             return;
+        }
+    });
+
+    $("#stopBatchNewButton").click(function() {
+        var html = $(this).html();
+        
+        if(true) {
+            var sendData = {"stop":true};
+            
+            $.ajax({
+                type: "POST",
+                url: "/new/batch/stop",
+                dataType: "json",
+                contentType: "application/json",               
+                data: JSON.stringify(sendData),
+                success : function(data) {
+                    var json = JSON.parse(JSON.stringify(data));
+                    if(json.isSuccess) {
+                        $("#batchMessage").html("成功停止线程");
+                    }
+                    else {
+                        $("#batchMessage").html("停止失败");
+                    }
+                }
+            });
         }
     });
     

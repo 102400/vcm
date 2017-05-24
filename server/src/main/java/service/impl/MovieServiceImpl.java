@@ -33,7 +33,7 @@ public class MovieServiceImpl implements MovieService {
     public Movie addMovieUseCrawlerByDoubanId(Movie movie) {
         // TODO Auto-generated method stub
         
-        List list = DoubanMovieSubjectCrawler.crawer(movie.getDoubanId());
+        List<Object> list = DoubanMovieSubjectCrawler.crawer(movie.getDoubanId());
         
         if (list == null || list.get(0) == null || list.get(1) == null) return null;
         
@@ -43,6 +43,9 @@ public class MovieServiceImpl implements MovieService {
         if (movie.getStoryline() == null) {
             movie.setStoryline("");
 //            return null;
+        }
+        if (movie.getRuntime() == null) {
+            return null;  //不是movie，是tv或其他
         }
         
         List<Genres> genresList = (List<Genres>) list.get(1);
