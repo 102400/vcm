@@ -29,5 +29,12 @@
             SET unhandle_ratings = 0 
             WHERE movie_id = #{movieId} 
         </update>
+        
+        <select id="findMovieListIfUnhandleRatingsLessThanX" resultType="Movie">
+            SELECT * 
+            FROM movie
+            WHERE unhandle_ratings &lt; 10 
+            LIMIT 100 
+        </select>
     
     </mapper>

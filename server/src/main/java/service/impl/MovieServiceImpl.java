@@ -2,6 +2,7 @@ package service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -111,6 +112,14 @@ public class MovieServiceImpl implements MovieService {
         list.add(genresList);
         
         return list;
+    }
+
+    @Override
+    public Movie randomMovieIfUnhandleRatingsLessThanX() {
+        // TODO Auto-generated method stub
+        List<Movie> movieList = movieMapper.findMovieListIfUnhandleRatingsLessThanX();
+        
+        return movieList.size() == 0 ? null : movieList.get(new Random().nextInt(movieList.size()));
     }
 
 }

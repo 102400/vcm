@@ -22,14 +22,23 @@
 	        <button type="button" id="stopBatchNewButton" class="btn btn-default">强行停止</button>
 	    </div>
 	    </form>
-	<p>输入地址，抓取此页最近看过的用户及用户所有看过电影和评分</p>
+	<hr>
 	
+	<p>输入地址，抓取此页最近看过的用户及用户所有看过电影和评分</p>
 	<form class="form-inline">
-    <div class="form-group">
-        <input type="text" id="doubanId" class="form-control" placeholder="doubanId">
-        <button type="button" id="batchNewButton" class="btn btn-default">批量增加</button>
-    </div>
+	    <div class="form-group">
+	        <input type="text" id="doubanId" class="form-control" placeholder="doubanId">
+	        <button type="button" id="batchNewButton" class="btn btn-default">批量增加</button>
+	    </div>
     </form>
+    
+    <hr>
+    <form class="form-inline">
+        <div class="form-group">
+            <button type="button" id="randomBatchNewButton" class="btn btn-default">随机批量增加</button>
+        </div>
+    </form>
+    
     <span id="batchMessage" style="color:#F00"></span>
 	<hr>
 </c:if>
@@ -86,6 +95,34 @@ $(function () {
             $.ajax({
                 type: "POST",
                 url: "/new/batch",
+                dataType: "json",
+                contentType: "application/json",               
+                data: JSON.stringify(sendData),
+                success : function(data) {
+                    var json = JSON.parse(JSON.stringify(data));
+                    if(json.isSuccess) {
+                        $("#batchMessage").html("成功开启线程");
+                    }
+                    else {
+                        $("#batchMessage").html("线程启动失败");
+                    }
+                }
+            });
+        }
+        else {
+            return;
+        }
+    });
+
+    $("#randomBatchNewButton").click(function() {
+        var html = $(this).html();
+        
+        if(doubanId!=null&&doubanId!="") {
+            var sendData = {"start":true};
+            
+            $.ajax({
+                type: "POST",
+                url: "/new/batch/random",
                 dataType: "json",
                 contentType: "application/json",               
                 data: JSON.stringify(sendData),
