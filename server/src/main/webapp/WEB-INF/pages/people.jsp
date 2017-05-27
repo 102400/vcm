@@ -9,7 +9,32 @@
 </head>
 <body>
 <jsp:include page="include/head.jsp"></jsp:include>
-
-people.jsp
+<table class="table-hover" border="1">
+<tr>
+    <th>rating</th>
+    <th>count</th>
+</tr>
+<c:forEach items="${ratingCountList}" var="rCount">
+    <tr>
+        <td>${rCount.rating}</td>
+        <td>${rCount.count}</td>
+    </tr>
+</c:forEach>
+</table>
+<hr>
+<table class="table-hover" border="1">
+<tr>
+    <th>genresId</th>
+    <th>nameZh</th>
+    <th>count</th>
+</tr>
+<c:forEach items="${genresCountList}" var="gCount">
+    <tr>
+        <td>${gCount.genresId}</td>
+        <td>${gCount.genresNameZh}</td>
+        <td>${gCount.count}</td>
+    </tr>
+</c:forEach>
+</table>
 </body>
 </html>

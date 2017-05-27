@@ -24,7 +24,7 @@
 评分:${movie.ratings}(${movie.users}人评价)<br />
 类型:<c:forEach items="${genresList}" var="genres">${genres.nameZh} </c:forEach><br />
 imdb:<a href="http://www.imdb.com/title/tt${movie.imdbId}">tt${movie.imdbId}</a><br />
-douban:<a href="https://movie.douban.com/subject/${movie.doubanId}">tt${movie.doubanId}</a><br />
+douban:<a href="https://movie.douban.com/subject/${movie.doubanId}">${movie.doubanId}</a><br />
 上映时间:${movie.releaseDate}<br />
 片长:${movie.runtime}分钟<br />
 剧情简介:<br />${movie.storyline}<br />

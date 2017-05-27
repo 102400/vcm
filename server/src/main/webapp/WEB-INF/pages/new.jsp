@@ -49,6 +49,15 @@
         <button type="button" id="newButton" class="btn btn-default">增加</button>
     </div>
 </form>
+<hr>
+<h3>将doubanUsername(id)的评分导入自己账户下</h3>
+<form class="form-inline">
+    <div class="form-group">
+        <input type="text" id="doubanUsername" class="form-control" placeholder="doubanUsername(id)">
+        <button type="button" id="importDoubanUsernameButton" class="btn btn-default">导入</button>
+    </div>
+</form>
+
 <span id="message" style="color:#F00"></span>
 
 
@@ -117,7 +126,7 @@ $(function () {
     $("#randomBatchNewButton").click(function() {
         var html = $(this).html();
         
-        if(doubanId!=null&&doubanId!="") {
+        if(true) {
             var sendData = {"start":true};
             
             $.ajax({
@@ -136,9 +145,6 @@ $(function () {
                     }
                 }
             });
-        }
-        else {
-            return;
         }
     });
 
@@ -161,6 +167,32 @@ $(function () {
                     }
                     else {
                         $("#batchMessage").html("停止失败");
+                    }
+                }
+            });
+        }
+    });
+
+    $("#importDoubanUsernameButton").click(function() {
+    	var doubanUsername = $("#doubanUsername").val();
+        var html = $(this).html();
+        
+        if(true) {
+            var sendData = {"doubanUsername":doubanUsername};
+            
+            $.ajax({
+                type: "POST",
+                url: "/new/import/doubanUsername",
+                dataType: "json",
+                contentType: "application/json",               
+                data: JSON.stringify(sendData),
+                success : function(data) {
+                    var json = JSON.parse(JSON.stringify(data));
+                    if(json.isSuccess) {
+                        $("#message").html("成功开启线程");
+                    }
+                    else {
+                        $("#message").html("线程启动失败");
                     }
                 }
             });

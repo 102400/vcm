@@ -152,7 +152,7 @@ public class DoubanMovieSubjectCrawler {
                 }
             }
             
-            if (imdbId == null || nameZh == null ) {
+            if (imdbId == null || nameZh == null || runtime == null) {
                 return null;
             }
             
@@ -166,7 +166,6 @@ public class DoubanMovieSubjectCrawler {
             movie.setStoryline(storyline);
             movie.setReleaseDate(releaseDate.toString());
             movie.setRuntime(runtime);
-            
             
             if(!saveCover(movie, cover)) {  //保存封面
                 return null;

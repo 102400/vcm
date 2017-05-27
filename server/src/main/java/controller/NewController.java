@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import crawler.DoubanMovieSubjectCollectionsCrawler;
 import crawler.DoubanMovieSubjectCrawler;
 import crawler.DoubanMovieUserCollectCrawler;
+import json.DoubanUserJson;
 import json.MovieJson;
 import json.ObjectJson;
 import json.SuccessJson;
@@ -128,7 +129,62 @@ public class NewController {
         return successJson;
     }
 	
-	private class RandomBatchNewThread extends BatchThread {
+	//将doubanUserId的评分导入自己账户下
+	@RequestMapping(path = "/import/doubanUsername", method = RequestMethod.POST)
+    public @ResponseBody SuccessJson importDoubanUsername(HttpServletRequest request, @RequestBody DoubanUserJson doubanUserJson) {
+        SuccessJson successJson = new SuccessJson();
+        
+        String doubanUsername = doubanUserJson.getDoubanUsername();
+        if (doubanUsername == null) return successJson;
+        
+        User user = new User();
+        user.setUserId((Integer) request.getAttribute("userId"));
+        System.out.println("userId" + user.getUserId());
+        
+        User doubanUser = new User();
+        doubanUser.setUsername(doubanUsername);
+        
+        new ImportDoubanUsernameThread(user, doubanUser).start();
+        
+        successJson.setIsSuccess(true);
+        return successJson;
+    }
+	
+	private class ImportDoubanUsernameThread extends NewThread {
+	    
+	    private User user;
+	    private User doubanUser;
+	    
+	    public ImportDoubanUsernameThread(User user, User doubanUser) {
+	        super();
+	        this.user = user;
+	        this.doubanUser = doubanUser;
+	    }
+	    
+	    @Override
+	    public void run() {
+	        try {
+                
+                Status.batchNewThreadCount++;
+                Status.batchNewThreadProgressMap.put(threadId.toString(), 0.0F);
+                System.out.println("threadId:" + threadId.toString());
+                
+                Thread.currentThread().sleep(1000*1);  //启动sleep
+                
+                addRatingAndMovieByDoubanUsername(user, doubanUser);
+	        }
+	        catch (Exception e) {
+//	            e.printStackTrace();
+	        }
+	        finally {
+                Status.batchNewThreadCount--;
+                Status.batchNewThreadProgressMap.remove(threadId.toString());
+            }
+	    }
+	    
+	}
+	
+	private class RandomBatchNewThread extends NewThread {
         
         public RandomBatchNewThread() {
             super();
@@ -178,7 +234,7 @@ public class NewController {
         
     }
 	
-	private class BatchNewThread extends BatchThread {
+	private class BatchNewThread extends NewThread {
 	    
 	    private MovieJson movieJson;
 	    
@@ -213,18 +269,20 @@ public class NewController {
 	    
 	}
 	
-	private abstract class BatchThread extends Thread {
+	private abstract class NewThread extends Thread {
 	    
 	    private static final String str = "qwertyuiopasdfghjklzxcvbnm0123456789";
 	    
         protected final StringBuilder threadId = new StringBuilder();
         
-        protected BatchThread() {
+        protected NewThread() {
             Random random = new Random();
-            for (int i=0;i<4;i++) {
+            for (int i=0; i<4; i++) {
                 threadId.append(str.charAt(random.nextInt(str.length())));
             }
         }
+        
+        
 	    
 	    protected boolean addZombieUserRatingAndMovieByDoubanId(int doubanId) {
             // TODO Auto-generated method stub
@@ -252,6 +310,7 @@ public class NewController {
                     
                         
                         try {
+//                            userService.addUser(user);  //validate
                             userMapper.add(user);
                         }
                         catch (Exception e) {
@@ -259,70 +318,8 @@ public class NewController {
                             continue;
                         }
                         
-                        try {
-                            //展开的 storyline 抓取不到
-                            List<Rating> ratingList =  DoubanMovieUserCollectCrawler.crawer(user);
-                            if(ratingList == null) continue;
-                            
-                            try {
-                                Thread.currentThread().sleep(((ratingList.size() + 1) /15) * 1000 * 2 * Status.batchNewThreadCount);
-                            } catch (InterruptedException e1) {
-                                // TODO Auto-generated catch block
-                                e1.printStackTrace();
-                            }
-                            
-                            for(Rating rating : ratingList) {
-                                
-                                if (!Status.batchNewThreadFlag) {
-                                    return false;
-                                }
-                                
-                                
-                                try {
-                                
-                                    if (rating.getComment() == null) {
-                                        rating.setComment("");
-                                    }
-                                    rating.setUserId(user.getUserId());
-                                    
-                                    Movie movie = new Movie();
-                                    movie.setDoubanId(rating.getMovieId());
-                                    
-                                    Movie movieT = movieMapper.findMovieByDoubanId(movie);
-                                    
-                                    if (movieT == null) {
-                                        
-                                        try {
-                                            Thread.currentThread().sleep(1000 * 2 * Status.batchNewThreadCount);
-                                        } catch (InterruptedException e1) {
-                                            // TODO Auto-generated catch block
-                                            e1.printStackTrace();
-                                        }
-                                        
-                                        movieT = movieService.addMovieUseCrawlerByDoubanId(movie);
-                                        
-                                        if (movieT == null) continue;
-                                        
-                                    }
-                                    // 有问题?
-                                    rating.setMovieId(movieT.getMovieId());
-                                    ratingService.changeRating(rating);
-                                    
-                                }
-                                catch (Exception e) {
-                                    e.printStackTrace();
-                                    try {
-                                        Thread.currentThread().sleep(1000 * 30 * Status.batchNewThreadCount);
-                                    } catch (InterruptedException e1) {
-                                        // TODO Auto-generated catch block
-                                        e1.printStackTrace();
-                                    }
-                                }
-                            }
-                        }
-                        catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        addRatingAndMovieByDoubanUsername(user, null);
+                        
                 }   
                 finally {
                     Status.batchNewThreadProgressMap.put(threadId.toString(), 
@@ -331,6 +328,84 @@ public class NewController {
             }
             return false;
 	    }
+	    
+	    protected boolean addRatingAndMovieByDoubanUsername(User user, User doubanUser) {
+            
+          
+          try {
+              //展开的 storyline 抓取不到
+//              List<Rating> ratingList =  DoubanMovieUserCollectCrawler.crawer(user);
+              List<Rating> ratingList = null;
+              if (doubanUser == null) {
+                  ratingList =  DoubanMovieUserCollectCrawler.crawer(user);
+              }
+              else {
+                  ratingList =  DoubanMovieUserCollectCrawler.crawer(doubanUser);
+              }
+              
+              if(ratingList == null) return false;
+              
+              try {
+                  Thread.currentThread().sleep(((ratingList.size() + 1) /15) * 1000 * 2 * Status.batchNewThreadCount);
+              } catch (InterruptedException e1) {
+                  // TODO Auto-generated catch block
+                  e1.printStackTrace();
+              }
+              
+              for(Rating rating : ratingList) {
+                  
+                  if (!Status.batchNewThreadFlag) {
+                      return false;
+                  }
+                  
+                  
+                  try {
+                  
+                      if (rating.getComment() == null) {
+                          rating.setComment("");
+                      }
+                      rating.setUserId(user.getUserId());
+                      
+                      Movie movie = new Movie();
+                      movie.setDoubanId(rating.getMovieId());
+                      
+                      Movie movieT = movieMapper.findMovieByDoubanId(movie);
+                      
+                      if (movieT == null) {
+                          
+                          try {
+                              Thread.currentThread().sleep(2800 * Status.batchNewThreadCount);
+                          } catch (InterruptedException e1) {
+                              // TODO Auto-generated catch block
+                              e1.printStackTrace();
+                          }
+                          
+                          movieT = movieService.addMovieUseCrawlerByDoubanId(movie);
+                          
+                          if (movieT == null) continue;
+                          
+                      }
+                      // 有问题?
+                      rating.setMovieId(movieT.getMovieId());
+                      ratingService.changeRating(rating);
+                      
+                  }
+                  catch (Exception e) {
+                      e.printStackTrace();
+                      try {
+                          Thread.currentThread().sleep(1000 * 30 * Status.batchNewThreadCount);
+                      } catch (InterruptedException e1) {
+                          // TODO Auto-generated catch block
+                          e1.printStackTrace();
+                      }
+                  }
+              }
+          }
+          catch (Exception e) {
+              e.printStackTrace();
+          }
+          return true;
+      }
 	}
 
 }

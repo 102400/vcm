@@ -85,7 +85,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Object> findMovieAndGenresListByDoubanId(Movie movie) {
         // TODO Auto-generated method stub
-        List<Object> list = new ArrayList<>();
+        List<Object> list = new ArrayList<>(2);
         
         movie = movieMapper.findMovieByDoubanId(movie);
         if (movie == null) return null;
@@ -120,6 +120,45 @@ public class MovieServiceImpl implements MovieService {
         List<Movie> movieList = movieMapper.findMovieListIfUnhandleRatingsLessThanX();
         
         return movieList.size() == 0 ? null : movieList.get(new Random().nextInt(movieList.size()));
+    }
+
+    @Override
+    public List<Object> searchMovieByImdbIdOrDoubanIdOrNameZh(String q) {
+        // TODO Auto-generated method stub
+        // [0] : imdbId (精确) , [1] : doubanId (精确) , [2] : nameZh (模糊)
+        List<Object> list = new ArrayList<>(3);
+        list.add(null);
+        list.add(null);
+        list.add(null);
+        
+        Integer imdbId = null;
+        Integer doubanId = null;
+        
+        try {
+            imdbId = Integer.valueOf(q.split("tt")[1]);
+        }
+        catch (Exception e) {}
+        
+        try {
+            doubanId = Integer.valueOf(q);
+        }
+        catch (NumberFormatException e) {}
+        
+        
+        Movie movie = new Movie();
+        movie.setImdbId(imdbId);
+        movie.setDoubanId(doubanId);
+        movie.setNameZh(q);
+        
+        if (imdbId != null || "".equals(q.split("tt")[0])) {
+            list.add(0, movieMapper.findMovieByImdbId(movie));
+        }
+        if (doubanId != null) {
+            list.add(1, movieMapper.findMovieByDoubanId(movie));
+        }
+        list.add(2, movieMapper.findMovieListByNameZh(movie));
+        
+        return list;
     }
 
 }

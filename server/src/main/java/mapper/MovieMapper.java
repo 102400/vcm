@@ -11,5 +11,7 @@ public interface MovieMapper {
     int plusOneToUnhandleRatingsByMovieId(Movie movie);
     int makeUnhandleRatingsZeroByMovieId(Movie movie);
     List<Movie> findMovieListIfUnhandleRatingsLessThanX();
+    Movie findMovieByImdbId(Movie movie);
+    List<Movie> findMovieListByNameZh(Movie movie);
 
 }

@@ -36,5 +36,17 @@
             WHERE unhandle_ratings &lt; 10 
             LIMIT 100 
         </select>
+        
+        <select id="findMovieByImdbId" parameterType="Movie" resultType="Movie">
+            SELECT *
+            FROM movie
+            WHERE imdb_id = #{imdbId}
+        </select>
+        
+        <select id="findMovieListByNameZh" parameterType="Movie" resultType="Movie">
+            SELECT *
+            FROM movie
+            WHERE name_zh LIKE '%${nameZh}%'
+        </select>
     
     </mapper>

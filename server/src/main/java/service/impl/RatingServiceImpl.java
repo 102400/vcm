@@ -1,9 +1,13 @@
 package service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import domain.RatingAndGenresCount;
 import mapper.MovieMapper;
 import mapper.RatingMapper;
 import mapper.UserMapper;
@@ -53,6 +57,19 @@ public class RatingServiceImpl implements RatingService {
     public Rating findRatingByMovieIdAndUserId(Rating rating) {
         // TODO Auto-generated method stub
         return ratingMapper.findRatingByMovieIdAndUserId(rating);
+    }
+
+    @Override
+    public List<Object> selectAllRatingAndGenresCountListByUserId(Rating rating) {
+        // TODO Auto-generated method stub
+        List<Object> list = new ArrayList<>();
+        List<RatingAndGenresCount> ratingCountList = ratingMapper.selectRatingCountListByUserId(rating);
+        List<RatingAndGenresCount> genresCountList = ratingMapper.selectGenresCountListByUserId(rating);
+        
+        list.add(ratingCountList);
+        list.add(genresCountList);
+        
+        return list;
     }
 
 }

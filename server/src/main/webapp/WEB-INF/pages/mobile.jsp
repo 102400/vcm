@@ -5,18 +5,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>search</title>
+<title>mobile</title>
 </head>
 <body>
 <jsp:include page="include/head.jsp"></jsp:include>
-<c:if test="${imdbMovie != null}">
-    <img src="/movie/cover/${imdbMovie.doubanId}" height="100px">
-    <a href="/movie/${imdbMovie.doubanId}">${imdbMovie.nameZh} ${imdbMovie.nameO}</a>
-</c:if>
-<c:forEach items="${movieList}" var="movie">
-    <img src="/movie/cover/${movie.doubanId}" height="100px">
-    <a href="/movie/${movie.doubanId}">${movie.nameZh} ${movie.nameO}</a>
-    <hr>
-</c:forEach>
+android:
+
+mobile.jsp
 </body>
 </html>

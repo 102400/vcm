@@ -11,5 +11,6 @@ public interface MovieService {
     Movie addMovieUseCrawlerByDoubanId(Movie movie);
     List<Object> findMovieAndGenresListByDoubanId(Movie movie);
     Movie randomMovieIfUnhandleRatingsLessThanX();
+    List<Object> searchMovieByImdbIdOrDoubanIdOrNameZh(String q);
 
 }

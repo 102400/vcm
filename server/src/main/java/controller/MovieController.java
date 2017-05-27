@@ -49,7 +49,7 @@ public class MovieController {
 	    List<Genres> genresList = (List<Genres>) list.get(1);
 	    
 	    Rating rating = null;
-	    if((boolean) request.getAttribute("isLogin")) {
+	    if ((boolean) request.getAttribute("isLogin")) {
 	        rating = new Rating();
 	        rating.setMovieId(movie.getMovieId());
 	        rating.setUserId((Integer) request.getAttribute("userId"));

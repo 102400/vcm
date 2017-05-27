@@ -36,8 +36,8 @@
         <!-- 搜索框 -->
         <form action="/search" method="get" class="navbar-form navbar-left" role="search">
 	        <div class="form-group">
-	        	<input type="hidden" name="type" value="bookname">
-	        	<input type="text"  name="q" class="form-control" placeholder="Search">
+	        	<!-- <input type="hidden" name="type" value="nameZh"> -->
+	        	<input type="text" name="q" class="form-control" size="25" placeholder="nameZh | imdbId | doubanId">
 	        </div>
 	        <button type="submit" class="btn btn-default">O</button>
       	</form>
@@ -46,8 +46,9 @@
                 <li class="${'/' == requestURI ? 'active' : ''}"><a href="/">首页</a></li>
 	            <c:if test="${isLogin}">
 	                <li class="${'/recommender' == requestURI ? 'active' : ''}"><a href="/recommender">推荐</a></li>
-	            	<li class="${'/new' == requestURI ? 'active' : ''}"><a href="/new">新建</a></li>
+	            	<li class="${'/new' == requestURI ? 'active' : ''}"><a href="/new">导入</a></li>
                 </c:if>
+                <li class="${'/mobile' == requestURI ? 'active' : ''}"><a href="/mobile">移动端</a></li>
              </ul>
              <ul class="nav navbar-nav navbar-right">
              <c:choose>
