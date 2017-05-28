@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.RatingAndGenresCount;
+import domain.GenresRatingStats;
+import domain.RatingStats;
 import mapper.MovieMapper;
 import mapper.RatingMapper;
 import mapper.UserMapper;
@@ -48,7 +49,7 @@ public class RatingServiceImpl implements RatingService {
         
         User user = new User();
         user.setUserId(rating.getUserId());
-        userMapper.plusOneToUnhandleRatingsByUserId(user);
+        userMapper.plusOneToUnhandleRatingsAndRatingCountByUserId(user);
         
         return true;
     }
@@ -60,14 +61,31 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public List<Object> selectAllRatingAndGenresCountListByUserId(Rating rating) {
+    public List<Object> selectAllGenresRatingStatsListByUserId(Rating rating) {
         // TODO Auto-generated method stub
         List<Object> list = new ArrayList<>();
-        List<RatingAndGenresCount> ratingCountList = ratingMapper.selectRatingCountListByUserId(rating);
-        List<RatingAndGenresCount> genresCountList = ratingMapper.selectGenresCountListByUserId(rating);
+        List<GenresRatingStats> ratingCountList = ratingMapper.selectRatingCountListByUserId(rating);
+        List<GenresRatingStats> genresStatsList = ratingMapper.selectGenresStatsListByUserId(rating);
+        RatingStats ratingStats = ratingMapper.selectRatingStatsByUserId(rating);
+        
+        User user = new User();
+        user.setUserId(rating.getUserId());
+        
+//        user = userMapper.findUserByUserId(user);
+//        int ratingCount = user.getRatingCount();
+        int ratingCount = ratingStats.getRatingCount();
+        float avgRating = ratingStats.getAvgRating();
+        
+        for (GenresRatingStats grs : genresStatsList) {
+            grs.setRatio((grs.getCount() + 0.0F) / ratingCount);
+            grs.setAvgDifference(grs.getAvgRating() - avgRating);
+            grs.setAvgRatio(grs.getAvgRating() / avgRating);
+        }
+        
         
         list.add(ratingCountList);
-        list.add(genresCountList);
+        list.add(genresStatsList);
+        list.add(ratingStats);
         
         return list;
     }

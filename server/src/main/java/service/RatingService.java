@@ -8,6 +8,6 @@ public interface RatingService {
     
     boolean changeRating(Rating rating);
     Rating findRatingByMovieIdAndUserId(Rating rating);
-    List<Object> selectAllRatingAndGenresCountListByUserId(Rating rating);
+    List<Object> selectAllGenresRatingStatsListByUserId(Rating rating);
 
 }

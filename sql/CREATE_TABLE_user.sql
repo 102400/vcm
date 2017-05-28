@@ -6,6 +6,7 @@ CREATE TABLE user
 	password CHAR(32) NOT NULL,
 	nickname VARCHAR(64) NOT NULL DEFAULT 'default',
     unhandle_rating INT NOT NULL DEFAULT 0,  -- 此用户的每次评分此处++,处理用户的分类均分后归零
+    rating_count INT NOT NULL DEFAULT 0,
 	create_time DATETIME NOT NULL DEFAULT NOW(),
 	PRIMARY KEY(user_id)
 );

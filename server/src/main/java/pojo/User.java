@@ -21,6 +21,7 @@ public class User {
     private String nickname;
     
     private Integer unhandleRating;
+    private Integer ratingCount;
     
     public Integer getUserId() {
         return userId;
@@ -58,6 +59,11 @@ public class User {
     public void setUnhandleRating(Integer unhandleRating) {
         this.unhandleRating = unhandleRating;
     }
-    
+    public Integer getRatingCount() {
+        return ratingCount;
+    }
+    public void setRatingCount(Integer ratingCount) {
+        this.ratingCount = ratingCount;
+    }
 
 }
