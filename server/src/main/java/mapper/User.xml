@@ -43,5 +43,14 @@
             SET unhandle_rating = 0 
             WHERE user_id = #{userId} 
         </update>
+        
+        <select id="findHundredUsersIfRatingCountMoreThanXAndUnhandleRatingMoreThanY" resultType="User">
+            SELECT *
+            FROM user
+            WHERE 
+                rating_count > 60
+                AND unhandle_rating > 30
+            LIMIT 100;
+        </select>
     
     </mapper>

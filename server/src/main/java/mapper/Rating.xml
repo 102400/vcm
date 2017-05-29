@@ -53,5 +53,17 @@
             FROM rating 
             WHERE user_id = #{userId}
         </select>
+        
+        <select id="selectGenresRatingListByUserId" parameterType="Rating" resultType="GenresRating">
+            SELECT 
+                DISTINCT movie_genres.genres_id, count(*) AS count, AVG(rating) as avg_rating
+            FROM 
+                rating, movie_genres
+            WHERE 
+                rating.user_id = #{userId}
+                AND rating.movie_id = movie_genres.movie_id
+            GROUP BY movie_genres.genres_id
+            ORDER BY count DESC
+        </select>
     
     </mapper>

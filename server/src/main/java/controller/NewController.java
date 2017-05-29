@@ -150,7 +150,7 @@ public class NewController {
         return successJson;
     }
 	
-	private class ImportDoubanUsernameThread extends NewThread {
+	private class ImportDoubanUsernameThread extends AbstractNewThread {
 	    
 	    private User user;
 	    private User doubanUser;
@@ -184,7 +184,7 @@ public class NewController {
 	    
 	}
 	
-	private class RandomBatchNewThread extends NewThread {
+	private class RandomBatchNewThread extends AbstractNewThread {
         
         public RandomBatchNewThread() {
             super();
@@ -234,7 +234,7 @@ public class NewController {
         
     }
 	
-	private class BatchNewThread extends NewThread {
+	private class BatchNewThread extends AbstractNewThread {
 	    
 	    private MovieJson movieJson;
 	    
@@ -269,13 +269,13 @@ public class NewController {
 	    
 	}
 	
-	private abstract class NewThread extends Thread {
+	private abstract class AbstractNewThread extends Thread {
 	    
 	    private static final String str = "qwertyuiopasdfghjklzxcvbnm0123456789";
 	    
         protected final StringBuilder threadId = new StringBuilder();
         
-        protected NewThread() {
+        protected AbstractNewThread() {
             Random random = new Random();
             for (int i=0; i<4; i++) {
                 threadId.append(str.charAt(random.nextInt(str.length())));

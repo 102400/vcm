@@ -7,10 +7,9 @@ import java.util.Map;
 
 public class Status {
     
-    public static int batchNewThreadCount = 0;
+    public volatile static int batchNewThreadCount = 0;
     public static boolean batchNewThreadFlag = true;
-//    public static float batchNewThreadProgress = 0.0F;  //一个线程会抓取两百个用户的页面
-    public static Map<String, Float> batchNewThreadProgressMap = new HashMap<>();
+    public volatile static Map<String, Float> batchNewThreadProgressMap = new HashMap<>();
     
     private Status() {}
 

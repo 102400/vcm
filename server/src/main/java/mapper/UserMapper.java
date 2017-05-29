@@ -1,5 +1,7 @@
 package mapper;
 
+import java.util.List;
+
 import pojo.User;
 
 public interface UserMapper {
@@ -10,5 +12,6 @@ public interface UserMapper {
     User findUserByUserId(User user);
     int plusOneToUnhandleRatingsAndRatingCountByUserId(User user);
     int makeUnhandleRatingsZeroByUserId(User user);
+    List<User> findHundredUsersIfRatingCountMoreThanXAndUnhandleRatingMoreThanY();
 
 }

@@ -55,6 +55,24 @@ public class UserServiceImpl implements UserService {
         }
         return u;
     }
+
+    @Override
+    public List<User> findHundredUsersIfRatingCountMoreThanXAndUnhandleRatingMoreThanY() {
+        // TODO Auto-generated method stub
+        return userMapper.findHundredUsersIfRatingCountMoreThanXAndUnhandleRatingMoreThanY();
+    }
+
+    @Override
+    public int plusOneToUnhandleRatingsAndRatingCountByUserId(User user) {
+        // TODO Auto-generated method stub
+        return userMapper.plusOneToUnhandleRatingsAndRatingCountByUserId(user);
+    }
+
+    @Override
+    public int makeUnhandleRatingsZeroByUserId(User user) {
+        // TODO Auto-generated method stub
+        return userMapper.makeUnhandleRatingsZeroByUserId(user);
+    }
     
 //    @Autowired
 //    private MovieService movieService;

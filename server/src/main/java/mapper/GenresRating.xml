@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="mapper.GenresRatingMapper">
+    
+        <delete id="deleteGenresRatingByUserId" parameterType="GenresRating">
+            DELETE FROM genres_rating
+            WHERE user_id = #{userId}
+        </delete>
+        
+        <insert id="addGenresRating" parameterType="GenresRating">
+            INSERT INTO genres_rating
+            ( user_id, genres_id, count, ratio, avg_rating, avg_difference, avg_ratio)
+            VALUES
+            ( #{userId}, #{genresId}, #{count}, #{ratio}, #{avgRating}, #{avgDifference}, #{avgRatio})
+        </insert>
+    
+    </mapper>

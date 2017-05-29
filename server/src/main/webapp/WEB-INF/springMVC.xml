@@ -8,6 +8,8 @@
 
       <!-- 扫描controller（controller层注入） -->
        <context:component-scan base-package="controller"/>
+       
+       <context:component-scan base-package="handler"/>
 
 	 <!-- 开启注解 -->
        <mvc:annotation-driven />

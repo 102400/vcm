@@ -1,6 +1,7 @@
 package service.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import domain.GenresRatingStats;
 import domain.RatingStats;
+import mapper.GenresRatingMapper;
 import mapper.MovieMapper;
 import mapper.RatingMapper;
 import mapper.UserMapper;
+import pojo.GenresRating;
 import pojo.Movie;
 import pojo.Rating;
 import pojo.User;
@@ -29,6 +32,9 @@ public class RatingServiceImpl implements RatingService {
     
     @Autowired
     private UserMapper userMapper;
+    
+    @Autowired
+    private GenresRatingMapper genresRatingMapper;
     
     
 
@@ -88,6 +94,49 @@ public class RatingServiceImpl implements RatingService {
         list.add(ratingStats);
         
         return list;
+    }
+
+    @Override
+    public boolean selectAndAddGenresRatingListToGenresRatingByUserId(Rating rating) {
+        // TODO Auto-generated method stub
+        
+        RatingStats ratingStats = ratingMapper.selectRatingStatsByUserId(rating);
+        List<GenresRating> genresRatingList = ratingMapper.selectGenresRatingListByUserId(rating);
+        
+        Integer userId = rating.getUserId();
+        int ratingCount = ratingStats.getRatingCount();
+        float avgRating = ratingStats.getAvgRating();
+        
+//        for (GenresRating gr : genresRatingList) {
+//            gr.setUserId(userId);
+//            gr.setRatio((gr.getCount() + 0.0F) / ratingCount);
+//            gr.setAvgDifference(gr.getAvgRating() - avgRating);
+//            gr.setAvgRatio(gr.getAvgRating() / avgRating);
+//        }
+        
+        Iterator<GenresRating> grIterator = genresRatingList.iterator();
+        
+        while (grIterator.hasNext()) {
+            GenresRating gr = grIterator.next();
+            
+            gr.setUserId(userId);
+            gr.setRatio((gr.getCount() + 0.0F) / ratingCount);
+            gr.setAvgDifference(gr.getAvgRating() - avgRating);
+            gr.setAvgRatio(gr.getAvgRating() / avgRating);
+            
+            if (gr.getCount() < 10 || gr.getAvgDifference() < 0) {  //流派评分总数小于10或流派评分小于平均评分的移除不处理
+                grIterator.remove();
+            }
+        }
+        if (genresRatingList.size() < 3) return false;  //不足3的不能进行
+        
+        genresRatingMapper.deleteGenresRatingByUserId(genresRatingList.get(0));
+        
+        for (GenresRating gr : genresRatingList) {
+            genresRatingMapper.addGenresRating(gr);
+        }
+        
+        return true;
     }
 
 }
