@@ -11,6 +11,7 @@ public class Status {
     public static boolean batchNewThreadFlag = true;
     public volatile static Map<String, Float> batchNewThreadProgressMap = new HashMap<>();
     
+    
     private Status() {}
 
 }

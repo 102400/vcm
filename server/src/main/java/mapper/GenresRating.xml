@@ -16,5 +16,23 @@
             VALUES
             ( #{userId}, #{genresId}, #{count}, #{ratio}, #{avgRating}, #{avgDifference}, #{avgRatio})
         </insert>
+        
+        <select id="findFirstGenresRating" resultType="GenresRating">
+            SELECT * 
+            FROM genres_rating 
+            LIMIT 1
+        </select>
+        
+        <select id="findGenresRatingByGenresRatingId" parameterType="GenresRating" resultType="GenresRating">
+            SELECT *
+            FROM genres_rating 
+            WHERE genres_rating_id = #{genresRatingId}
+        </select>
+        
+        <select id="findGenresRatingListByUserId" parameterType="GenresRating" resultType="GenresRating">
+            SELECT *
+            FROM genres_rating
+            WHERE user_id = #{userId}
+        </select>
     
     </mapper>
