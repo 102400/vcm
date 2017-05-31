@@ -4,5 +4,17 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
     <mapper namespace="mapper.NearestNeighborMapper">
+
+	    <insert id="addNearestNeighbor" parameterType="NearestNeighbor">
+	        INSERT INTO nearest_neighbor 
+	        ( user_id, neighbor_id, distance) 
+	        VALUES 
+	        ( #{userId}, #{neighborId}, #{distance}) 
+	    </insert>
+	    
+	    <delete id="deleteNearestNeighborByUserId" parameterType="NearestNeighbor">
+            DELETE FROM nearest_neighbor 
+            WHERE user_id = #{userId}
+	    </delete>
         
     </mapper>

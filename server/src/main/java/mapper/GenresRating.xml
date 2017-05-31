@@ -34,5 +34,24 @@
             FROM genres_rating
             WHERE user_id = #{userId}
         </select>
+        
+        <select id="findGenresRatingListByUserIdAndGenresId" resultType="GenresRating">
+            SELECT * 
+            FROM genres_rating
+			WHERE 
+				user_id = #{genresRating.userId}
+				AND (
+					genres_id = #{genresA}
+					OR genres_id = #{genresB}
+					OR genres_id = #{genresC}
+				)
+        </select>
+        
+        <select id="findLastGenresRating" resultType="GenresRating">
+            SELECT * 
+            FROM genres_rating
+            GROUP BY genres_rating_id DESC 
+            LIMIT 1 
+        </select>
     
     </mapper>

@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import config.Config;
+import pojo.FavoriteGenres;
 import pojo.GenresRating;
+import service.FavoriteGenresService;
 import service.GenresRatingService;
 
 /**
@@ -83,9 +85,21 @@ public class FavoriteGenresHandler implements Runnable {
             e.printStackTrace();
         }
         
-        GenresRating firstGenresRating = genresRatingService.findFirstGenresRating();
-        if (firstGenresRating.getGenresRatingId() > nextGenresRatingIdINI) {
-            nextGenresRatingId = firstGenresRating.getGenresRatingId();  //id为表的第一行
+        while (true) {
+            GenresRating firstGenresRating = genresRatingService.findFirstGenresRating();
+            if (firstGenresRating == null) {  //表空时
+                try {
+                    Thread.currentThread().sleep(1000 * 60 * 10);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                continue;
+            }
+            if (firstGenresRating.getGenresRatingId() > nextGenresRatingIdINI) {
+                nextGenresRatingId = firstGenresRating.getGenresRatingId();  //id为表的第一行
+            }
+            break;
         }
         
         while (true) {
@@ -94,12 +108,22 @@ public class FavoriteGenresHandler implements Runnable {
                 GenresRating genresRating = new GenresRating();
                 genresRating.setGenresRatingId(nextGenresRatingId);
                 
-                //如果nextGenresRatingId不连续则会卡住!
+                //nextGenresRatingId
                 try {
 //                    Thread.currentThread().sleep(1000 * 1);
                     int count = genresRatingService.findAndAddFavoriteGenresByGenresRatingId(genresRating);
                     if (count == 0) {  //到表底了或卡住了。。。。
-                        Thread.currentThread().sleep(1000 * 60 * 5);
+                        
+                        GenresRating gr = genresRatingService.findLastGenresRating();
+                        
+                        if (gr.getGenresRatingId() < nextGenresRatingId) {  //到表底了
+                            nextGenresRatingId = gr.getGenresRatingId() + 1;
+                            Thread.currentThread().sleep(1000 * 60 * 5);
+                        }
+                        else {  //出现了不连续的id
+                            nextGenresRatingId++;
+                            Thread.currentThread().sleep(100);
+                        }
                     }
                     nextGenresRatingId = count + nextGenresRatingId;
                 }

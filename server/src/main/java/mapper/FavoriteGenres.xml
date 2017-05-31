@@ -12,4 +12,49 @@
             ( #{userId}, #{genresId})
         </insert>
         
+        <delete id="deleteFavoriteGenresByUserId" parameterType="FavoriteGenres">
+            DELETE FROM favorite_genres 
+            WHERE user_id = #{userId}
+        </delete>
+        
+        <select id="findLastFavoriteGenres" resultType="FavoriteGenres">
+            SELECT * 
+			FROM favorite_genres 
+			GROUP BY favorite_genres_id DESC 
+			LIMIT 1 
+        </select>
+        
+        <select id="findFirstFavoriteGenres" resultType="FavoriteGenres">
+            SELECT * 
+            FROM favorite_genres 
+            LIMIT 1
+        </select>
+        
+        <select id="findFavoriteGenresByFavoriteGenresId" parameterType="FavoriteGenres" resultType="FavoriteGenres">
+            SELECT * 
+            FROM favorite_genres 
+            WHERE favorite_genres_id = #{favoriteGenresId}
+        </select>
+        
+        <select id="findFavoriteGenresListByUserId" parameterType="FavoriteGenres" resultType="FavoriteGenres">
+            SELECT * 
+            FROM favorite_genres 
+            WHERE user_id = #{userId}
+        </select>
+        
+        <select id="findTheSameFavoriteGenres" resultType="FavoriteGenres">
+            SELECT user_id, count(*) as count 
+			FROM favorite_genres 
+			WHERE 
+			    (
+				genres_id = #{genresA} 
+				OR genres_id = #{genresB} 
+				OR genres_id = #{genresC} 
+				)
+				AND user_id != #{genresRating.userId}
+			GROUP BY user_id 
+			HAVING COUNT(*) = 3 
+			LIMIT 100 
+        </select>
+        
     </mapper>

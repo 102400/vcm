@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import config.Config;
+import pojo.FavoriteGenres;
 import pojo.GenresRating;
+import service.FavoriteGenresService;
 import service.GenresRatingService;
 
 /**
@@ -68,6 +70,8 @@ public class NearestNeighborHandler implements Runnable {
         }
     }
     
+    @Autowired
+    private FavoriteGenresService favoriteGenresService;
 
     @Override
     public void run() {
@@ -81,7 +85,54 @@ public class NearestNeighborHandler implements Runnable {
             e.printStackTrace();
         }
         
+        while (true) {
+            FavoriteGenres firstFavoriteGenres = favoriteGenresService.findFirstFavoriteGenres();
+            if (firstFavoriteGenres == null) {  //表空时
+                try {
+                    Thread.currentThread().sleep(1000 * 60 * 10);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                continue;
+            }
+            if (firstFavoriteGenres.getFavoriteGenresId() > nextFavoriteGenresIdINI) {
+                nextFavoriteGenresId = firstFavoriteGenres.getFavoriteGenresId();  //id为表的第一行
+            }
+            break;
+        }
         
+        while (true) {
+            try {
+                FavoriteGenres favoriteGenres = new FavoriteGenres();
+                favoriteGenres.setFavoriteGenresId(nextFavoriteGenresId);
+                
+                int count = favoriteGenresService.findAndAddNearestNeighbor(favoriteGenres);
+                if (count == 0) {  //到表底了或卡住了。。。。
+                    
+                    FavoriteGenres fg = favoriteGenresService.findLastFavoriteGenres();
+                    
+                    if (fg.getFavoriteGenresId() < nextFavoriteGenresId) {  //到表底了
+                        nextFavoriteGenresId = fg.getFavoriteGenresId() + 1;
+                        Thread.currentThread().sleep(1000 * 60 * 5);
+                    }
+                    else {  //出现了不连续的id
+                        nextFavoriteGenresId++;
+                        Thread.currentThread().sleep(100);
+                    }
+                }
+                nextFavoriteGenresId = count + nextFavoriteGenresId;
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                try {
+                    Thread.currentThread().sleep(1000 * 60 * 5);
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        }
         
     }
 

@@ -78,34 +78,51 @@ public class GenresRatingServiceImpl implements GenresRatingService {
             }
             
 //            int[] index = new int[]{-1, -1, -1};  // 找出这个用户最喜欢的三个流派
+//            for (int i=0; i<3; i++) {
+//                int a = -1;
+//                float b = -1F;
+//                J:
+//                for (int j=0; j<weight.length; j++) {
+//                    if (weight[j] > b) {
+//                        if (a == -1) {
+//                            for (int k=0; k<index.length; k++) {
+//                                if (j == index[k]) {
+//                                    continue J;
+//                                }
+//                            }
+//                            a = j;
+//                            b = weight[j];
+//                            index[i] = j;
+//                            continue J;
+//                        }
+//                        for (int k=0; k<index.length; k++) {
+//                            if (j == index[k]) {
+//                                continue J;
+//                            }
+//                        }
+//                       index[i] = j;
+//                       a = j;
+//                       b = weight[j];
+//                    }
+//                }
+//            }
             for (int i=0; i<3; i++) {
-                int a = -1;
-                float b = -1F;
-                J:
-                for (int j=0; j<weight.length; j++) {
-                    if (weight[j] > b) {
-                        if (a == -1) {
-                            for (int k=0; k<index.length; k++) {
-                                if (j == index[k]) {
-                                    continue J;
-                                }
-                            }
-                            a = j;
-                            b = weight[j];
-                            index[i] = j;
-                            continue J;
-                        }
-                        for (int k=0; k<index.length; k++) {
-                            if (j == index[k]) {
-                                continue J;
-                            }
-                        }
-                       index[i] = j;
-                       a = j;
-                       b = weight[j];
-                    }
-                }
-            }
+//              int a = -1;
+              float b = -1F;
+              J:
+              for (int j=0; j<weight.length; j++) {
+                  if (weight[j] > b) {
+                      for (int k=0; k<index.length; k++) {
+                          if (j == index[k]) {
+                              continue J;
+                          }
+                      }
+                      index[i] = j;
+//                      a = j;
+                      b = weight[j];
+                  }
+              }
+          }
             
             System.out.println("result:");
             
@@ -128,6 +145,8 @@ public class GenresRatingServiceImpl implements GenresRatingService {
 //            }
             
         }
+        //先删除用户所属的
+        favoriteGenresMapper.deleteFavoriteGenresByUserId(favoriteGenresList.get(0));
         
         //写入数据库
         for (FavoriteGenres fg : favoriteGenresList) {
@@ -135,6 +154,12 @@ public class GenresRatingServiceImpl implements GenresRatingService {
         }
         
         return genresRatingList.size();
+    }
+
+    @Override
+    public GenresRating findLastGenresRating() {
+        // TODO Auto-generated method stub
+        return genresRatingMapper.findLastGenresRating();
     }
 
 }

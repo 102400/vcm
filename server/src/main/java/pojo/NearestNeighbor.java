@@ -4,6 +4,7 @@ public class NearestNeighbor {
     
     private Integer userId;
     private Integer neighborId;
+    private Float distance;
     
     public Integer getUserId() {
         return userId;
@@ -16,6 +17,12 @@ public class NearestNeighbor {
     }
     public void setNeighborId(Integer neighborId) {
         this.neighborId = neighborId;
+    }
+    public Float getDistance() {
+        return distance;
+    }
+    public void setDistance(Float distance) {
+        this.distance = distance;
     }
     
 }
