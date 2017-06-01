@@ -18,6 +18,12 @@
             WHERE douban_id = #{doubanId}
         </select>
         
+        <select id="findMovieByMovieId" parameterType="Movie" resultType="Movie">
+            SELECT * 
+            FROM movie 
+            WHERE movie_id = #{movieId} 
+        </select>
+        
         <update id="plusOneToUnhandleRatingsByMovieId" parameterType="Movie">
             UPDATE movie 
             SET unhandle_ratings = unhandle_ratings + 1 

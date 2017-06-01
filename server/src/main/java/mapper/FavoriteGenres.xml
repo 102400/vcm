@@ -57,4 +57,12 @@
 			LIMIT 100 
         </select>
         
+        <select id="findGenresListByUserId" parameterType="FavoriteGenres" resultType="Genres">
+            SELECT genres.genres_id, genres.name_zh
+            FROM favorite_genres, genres
+            WHERE
+                favorite_genres.user_id = #{userId}
+                AND favorite_genres.genres_id = genres.genres_id
+        </select>
+        
     </mapper>

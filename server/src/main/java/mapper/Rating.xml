@@ -65,5 +65,20 @@
             GROUP BY movie_genres.genres_id
             ORDER BY count DESC
         </select>
+        
+        <select id="findGoodMovieByUserIdAndGenres" parameterType="hashmap" resultType="domain.GoodMovie">
+            SELECT rating.movie_id, rating.rating, movie_genres.genres_id
+			FROM rating, movie_genres 
+			WHERE 
+				user_id = #{nearestNeighbor.neighborId} 
+				AND rating.movie_id = movie_genres.movie_id 
+				AND  
+				(
+					movie_genres.genres_id = #{genresA} 
+					OR movie_genres.genres_id = #{genresB} 
+					OR movie_genres.genres_id = #{genresC} 
+				)
+				AND rating >= 8
+        </select>
     
     </mapper>

@@ -8,6 +8,7 @@ public interface MovieMapper {
     
     int add(Movie movie);
     Movie findMovieByDoubanId(Movie movie);
+    Movie findMovieByMovieId(Movie movie);
     int plusOneToUnhandleRatingsByMovieId(Movie movie);
     int makeUnhandleRatingsZeroByMovieId(Movie movie);
     List<Movie> findMovieListIfUnhandleRatingsLessThanX();

@@ -16,5 +16,11 @@
             DELETE FROM nearest_neighbor 
             WHERE user_id = #{userId}
 	    </delete>
+	    
+	    <select id="findNearestNeighborListByUserId" parameterType="NearestNeighbor" resultType="NearestNeighbor">
+			SELECT * 
+			FROM nearest_neighbor 
+			WHERE user_id = #{userId} 
+	    </select>
         
     </mapper>

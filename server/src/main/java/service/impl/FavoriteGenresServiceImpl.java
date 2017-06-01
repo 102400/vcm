@@ -15,6 +15,7 @@ import mapper.GenresRatingMapper;
 import mapper.NearestNeighborMapper;
 import mapper.RatingMapper;
 import pojo.FavoriteGenres;
+import pojo.Genres;
 import pojo.GenresRating;
 import pojo.NearestNeighbor;
 import pojo.Rating;
@@ -181,6 +182,12 @@ public class FavoriteGenresServiceImpl implements FavoriteGenresService {
         
         
         return favoriteGenresList.size();
+    }
+
+    @Override
+    public List<Genres> findGenresListByUserId(FavoriteGenres favoriteGenres) {
+        // TODO Auto-generated method stub
+        return favoriteGenresMapper.findGenresListByUserId(favoriteGenres);
     }
 
 }

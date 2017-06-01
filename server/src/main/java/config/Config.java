@@ -15,7 +15,7 @@ public class Config {
     
     public static boolean canGenresRatingHandlerRun = false;
     public static boolean canFavoriteGenresHandlerRun = false;
-    public static boolean canNearestNeighborHandlerRun = true;
+    public static boolean canNearestNeighborHandlerRun = false;
             
     
     static {
