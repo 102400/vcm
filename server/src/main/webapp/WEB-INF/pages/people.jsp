@@ -33,7 +33,7 @@
 </table>
 <table class="table-hover float_left" border="1">
 	<tr>
-	    <th>mpRatingRatio(r){[m]s/[p]s}</th>
+	    <th>mpRatingRatio(mpr){[m]s/[p]s}</th>
 	</tr>
 	<tr>
 	   <td>${mpRatingRatio}</td>
@@ -73,10 +73,11 @@
     <th>genresId</th>
     <th>nameZh</th>
     <th>count</th>
-    <th>ratio</th>
+    <th>ratio(r)</th>
     <th>avgRating(y)</th>
     <th>avgDifference{y-s}</th>
-    <th>avgRatio{y/s}</th>
+    <th>avgRatio(ar){y/s}</th>
+    <th>weight{(r + ar) * y}</th>
 </tr>
 <c:forEach items="${pGenresStatsList}" var="gStats">
     <c:choose>
@@ -94,6 +95,7 @@
         <td>${gStats.avgRating}</td>
         <td>${gStats.avgDifference}</td>
         <td>${gStats.avgRatio}</td>
+        <td>${(gStats.ratio + gStats.avgRatio) * gStats.avgRating}</td>
     </tr>
 </c:forEach>
 </table>
@@ -102,10 +104,11 @@
     <th>genresId</th>
     <th>nameZh</th>
     <th>count</th>
-    <th>ratio</th>
+    <th>ratio(r)</th>
     <th>avgRating(y)</th>
     <th>avgDifference{y-s}</th>
-    <th>avgRatio{y/s}</th>
+    <th>avgRatio(ar){y/s}</th>
+    <th>weight{(r + ar) * y}</th>
 </tr>
 <c:forEach items="${mGenresStatsList}" var="gStats">
     <c:choose>
@@ -123,6 +126,7 @@
         <td>${gStats.avgRating}</td>
         <td>${gStats.avgDifference}</td>
         <td>${gStats.avgRatio}</td>
+        <td>${(gStats.ratio + gStats.avgRatio) * gStats.avgRating}</td>
     </tr>
 </c:forEach>
 </table>
@@ -131,10 +135,11 @@
     <th>genresId</th>
     <th>nameZh</th>
     <th>count</th>
-    <th>ratio</th>
+    <th>ratio(r)</th>
     <th>avgRating(y)</th>
     <th>avgDifference{y-s}</th>
-    <th>avgRatio{y/s}</th>
+    <th>avgRatio(ar){y/s}</th>
+    <th>weight{(r + ar) * y}</th>
 </tr>
 <c:forEach items="${wpGenresStatsList}" var="gStats">
     <c:choose>
@@ -152,6 +157,7 @@
         <td>${gStats.avgRating}</td>
         <td>${gStats.avgDifference}</td>
         <td>${gStats.avgRatio}</td>
+        <td>${(gStats.ratio + gStats.avgRatio) * gStats.avgRating}</td>
     </tr>
 </c:forEach>
 </table>

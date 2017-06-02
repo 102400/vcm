@@ -90,8 +90,8 @@ public class NearestNeighborServiceImpl implements NearestNeighborService {
 //        }
         List<Map.Entry<Integer,Integer>> movieStatsList = new ArrayList<>(movieStatsMap.entrySet());
         
-        Collections.sort(movieStatsList, new Comparator<Map.Entry<Integer,Integer>>() {      
-            public int compare(Map.Entry<Integer,Integer> o1, Map.Entry<Integer,Integer> o2) {      
+        Collections.sort(movieStatsList, new Comparator<Map.Entry<Integer,Integer>>() {     
+            @Override public int compare(Map.Entry<Integer,Integer> o1, Map.Entry<Integer,Integer> o2) {      
                 return (o2.getValue() - o1.getValue());      
             }      
         });

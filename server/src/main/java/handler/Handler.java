@@ -19,6 +19,8 @@ public class Handler {
     private static FavoriteGenresHandler favoriteGenresHandler;
     
     private static NearestNeighborHandler nearestNeighborHandler;
+    
+    private static RatingsAndUsersHandler ratingsAndUsersHandler;
 
     @Autowired
     public void setGenresRatingHandler(GenresRatingHandler genresRatingHandler) {
@@ -46,6 +48,17 @@ public class Handler {
             System.out.println("NearestNeighborHandler start!!!");
         }
     }
+
+    @Autowired
+    public void setRatingsAndUsersHandler(RatingsAndUsersHandler ratingsAndUsersHandler) {
+        Handler.ratingsAndUsersHandler = ratingsAndUsersHandler;
+        if (Config.canRatingsAndUsersHandlerRun) {
+            new Thread(ratingsAndUsersHandler).start();
+            System.out.println("RatingsAndUsersHandler start!!!");
+        }
+    }
+    
+    
     
     
     

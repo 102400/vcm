@@ -54,5 +54,18 @@
             FROM movie
             WHERE name_zh LIKE '%${nameZh}%'
         </select>
+        
+        <select id="findMovieListIfUnhandleRatingsMoreThanX" resultType="Movie">
+            SELECT * 
+            FROM movie 
+            WHERE unhandle_ratings <![CDATA[>]]> 0
+            LIMIT 100 
+        </select>
+        
+        <update id="updateRatingsAndUsersByMovieId" parameterType="Movie">
+            UPDATE movie 
+            SET ratings = #{ratings}, users = #{users} 
+            WHERE movie_id = #{movieId} 
+        </update>
     
     </mapper>

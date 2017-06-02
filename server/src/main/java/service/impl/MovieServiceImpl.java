@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import crawler.DoubanMovieSubjectCrawler;
+import domain.RatingsAndUsersStats;
 import mapper.GenresMapper;
 import mapper.MovieGenresMapper;
 import mapper.MovieMapper;
+import mapper.RatingMapper;
 import pojo.Genres;
 import pojo.Movie;
 import pojo.MovieGenres;
+import pojo.Rating;
 import service.MovieService;
 
 @Service
@@ -29,6 +32,9 @@ public class MovieServiceImpl implements MovieService {
     
     @Autowired
     private GenresMapper genresMapper;
+    
+    @Autowired
+    private RatingMapper ratingMapper;
 
     @Override
     public Movie addMovieUseCrawlerByDoubanId(Movie movie) {
@@ -159,6 +165,27 @@ public class MovieServiceImpl implements MovieService {
         list.add(2, movieMapper.findMovieListByNameZh(movie));
         
         return list;
+    }
+
+    @Override
+    public boolean calculationAndUpdateRatingsAndUsers() {
+        // TODO Auto-generated method stub
+        List<Movie> movieList = movieMapper.findMovieListIfUnhandleRatingsMoreThanX();
+        
+        for (Movie movie : movieList) {
+            Rating rating = new Rating();
+            rating.setMovieId(movie.getMovieId());
+            
+            RatingsAndUsersStats ratingsAndUsersStats = ratingMapper.selectRatingsAndUsersStatsByMovieId(rating);
+            movie.setRatings(ratingsAndUsersStats.getRatings());
+            movie.setUsers(ratingsAndUsersStats.getUsers());
+            
+            movieMapper.updateRatingsAndUsersByMovieId(movie);
+            
+            movieMapper.makeUnhandleRatingsZeroByMovieId(movie);
+        }
+        
+        return true;
     }
 
 }

@@ -20,7 +20,7 @@ import service.GenresRatingService;
 
 /**
  * 
- * 依赖 GenresRatingHandler 处理后的结果
+ * 依赖 FavoriteGenresHandler 处理后的结果
  *
  */
 

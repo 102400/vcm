@@ -9,7 +9,7 @@
 </head>
 <body>
 <jsp:include page="include/head.jsp"></jsp:include>
-android:
+android(API 16:4.1):
 
 mobile.jsp
 </body>

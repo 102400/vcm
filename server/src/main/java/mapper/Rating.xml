@@ -80,5 +80,11 @@
 				)
 				AND rating >= 8
         </select>
+        
+        <select id="selectRatingsAndUsersStatsByMovieId" parameterType="Rating" resultType="domain.RatingsAndUsersStats">
+            SELECT count(*) as users, avg(rating) as ratings 
+            FROM rating 
+            WHERE movie_id = #{movieId} 
+        </select>
     
     </mapper>
