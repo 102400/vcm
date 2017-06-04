@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -72,7 +71,9 @@ public class SearchFragment extends Fragment {
         private TextView mRatingsAndUsersTextView;
         private TextView mNameZhTextView;
 
+        private List<Movie> mMovieList;
         private Movie mMovie;
+        private int mPosition;
 
         public MovieHolder(View itemView) {
             super(itemView);
@@ -82,22 +83,28 @@ public class SearchFragment extends Fragment {
             mNameZhTextView = (TextView) itemView.findViewById(R.id.list_item_movie_name_zh_text_view);
         }
 
-        public void bindMovie(Movie movie) {
-            mMovie = movie;
+        public void bindMovie(List<Movie> movieList, int position) {
+            mMovieList = movieList;
+            mPosition = position;
+            mMovie = mMovieList.get(mPosition);
             mRatingsAndUsersTextView.setText(mMovie.getRatings() + "(" + mMovie.getUsers() + ")");
             mNameZhTextView.setText(mMovie.getNameZh());
         }
 
         @Override
         public void onClick(View v) {
-
-
             //跳转activity_movie
+            Intent intent = new Intent(getActivity(), MovieActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("movieList", (ArrayList<Movie>) mMovieList);
+            bundle.putInt("position", mPosition);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
 
     }
 
-    private class MovieAdapter extends RecyclerView.Adapter<MovieHolder> {
+    private class MovieAdapter extends RecyclerView.Adapter<SearchFragment.MovieHolder> {
 
         private List<Movie> mMovieList;
 
@@ -106,16 +113,16 @@ public class SearchFragment extends Fragment {
         }
 
         @Override
-        public MovieHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public SearchFragment.MovieHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             View view = layoutInflater.inflate(R.layout.list_item_movie,parent,false);
-            return new MovieHolder(view);
+            return new SearchFragment.MovieHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(MovieHolder holder, int position) {
+        public void onBindViewHolder(SearchFragment.MovieHolder holder, int position) {
             Movie movie = mMovieList.get(position);
-            holder.bindMovie(movie);
+            holder.bindMovie(mMovieList, position);
         }
 
         @Override
@@ -123,7 +130,7 @@ public class SearchFragment extends Fragment {
             return mMovieList.size();
         }
 
-        public void setCrimes(List<Movie> movieList) {
+        public void setMovieList(List<Movie> movieList) {
             mMovieList = movieList;
         }
     }
@@ -196,7 +203,6 @@ public class SearchFragment extends Fragment {
 
             if (movieList != null) {
                 mRecyclerView.setAdapter(new MovieAdapter(movieList));
-
             }
         }
     }

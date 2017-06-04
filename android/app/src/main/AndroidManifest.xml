@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MovieActivity"></activity>
         <activity android:name=".LoginAndRegisterActivity"></activity>
     </application>
 

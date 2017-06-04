@@ -13,7 +13,7 @@ import util.MD5;
 
 @Controller
 @RequestMapping("/mobile/register")
-public class RegisterAndroidController {
+public class RegisterMobileController {
     
     @Autowired
     private UserService userService;

@@ -67,7 +67,7 @@ public class MovieController {
 		return "movie";
 	}
 	
-	@RequestMapping(path = "/cover/{douban_id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/cover/{douban_id}")
 	public void movieCover(HttpServletRequest request, HttpServletResponse response, @PathVariable int douban_id) {
 	    Path file = Paths.get(Config.MOVIE_COVER_PATH, douban_id + ".jpg");
         try {
@@ -96,10 +96,12 @@ public class MovieController {
 	    
 //	    System.out.println("rating userId" + rating.getUserId());
 	    
-	    ratingService.changeRating(rating);
-	    
-	    
-	    
+	    try {
+	        ratingService.changeRating(rating);
+	    }
+	    catch (Exception e) {
+	        return successJson;
+	    }
 	    
 	    
 	    successJson.setIsSuccess(true);

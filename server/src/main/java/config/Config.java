@@ -5,8 +5,11 @@ import util.MD5;
 public class Config {
     
     public static final String DOUBAN_HOST = "https://movie.douban.com";
-    public static final String MOVIE_COVER_PATH = "C:\\vcm\\movie_cover";  //cover使用doubanId作为前缀
+    public static final String MOVIE_COVER_PATH = "C:/vcm/movie_cover";  //cover使用doubanId作为前缀
     public static final String CONFIG_PATH = "C:/vcm/config";
+    
+//    public static final String MOVIE_COVER_PATH = "/usr/vcm/vcm/movie_cover";  //cover使用doubanId作为前缀
+//    public static final String CONFIG_PATH = "/usr/vcm/vcm/config";
     
     //ZOMBIE_USER_EMAIL = username + ZOMBIE_USER_EMAIL_SUFFIX
     public static final String ZOMBIE_USER_EMAIL_SUFFIX = "@vcm.com";

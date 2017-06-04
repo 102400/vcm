@@ -15,7 +15,7 @@ import service.MovieService;
 
 @Controller
 @RequestMapping("/mobile/search")
-public class SearchAndroidController {
+public class SearchMobileController {
     
     @Autowired
     private MovieService movieService;

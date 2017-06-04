@@ -10,7 +10,7 @@ import util.VerifySource;
 
 @Controller
 @RequestMapping("/mobile/verify")
-public class VerifyAndroidController {
+public class VerifyMobileController {
     
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody SuccessJson post(int userId, String verify) {

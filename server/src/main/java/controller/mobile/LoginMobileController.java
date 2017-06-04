@@ -15,7 +15,7 @@ import util.VerifySource;
 
 @Controller
 @RequestMapping("/mobile/login")
-public class LoginAndroidController {
+public class LoginMobileController {
     
     @Autowired
     private UserService userService;

@@ -4,26 +4,18 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <Button
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragment_recommend_message_text_view"
         android:text="recommend"/>
 
-    <!--
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_recommend_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".15">
+        android:layout_height="match_parent">
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".75">
-
-        <include layout="@layout/fragment_index"/>
-    </LinearLayout>
-    -->
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

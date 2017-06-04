@@ -1,10 +1,12 @@
 package com.vatcore.vcm;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/6/3.
  */
 
-public class Movie {
+public class Movie implements Serializable {
 
     private int movieId;
     private int imdbId;
