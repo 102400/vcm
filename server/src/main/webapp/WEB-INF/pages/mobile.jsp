@@ -9,8 +9,6 @@
 </head>
 <body>
 <jsp:include page="include/head.jsp"></jsp:include>
-android(>=API 24:7.0){default method}:
-
-mobile.jsp
+android(>=API 24:7.0){default method}:<a href="/app-debug.apk">app下载</a>
 </body>
 </html>
